@@ -521,6 +521,8 @@ SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
                 <!-- Welcome Header -->
                 <div class="welcome-header">
                     <h1>My Appointments</h1>
+                    <h3>Apponted date</h3>
+            
                     <p>View and manage all your patient appointments.</p>
 
                     <% if (request.getParameter("message") != null && request.getParameter("message").equals("doctors-cannot-book-appointments")) { %>
