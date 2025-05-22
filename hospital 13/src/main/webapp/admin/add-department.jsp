@@ -1,0 +1,610 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Department - Admin Dashboard</title>
+    <!-- Using locally hosted Font Awesome instead of CDN -->
+    <link rel="stylesheet" href="../css/fontawesome/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0066cc;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo a {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .logo span {
+            color: #0066cc;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #0066cc;
+        }
+
+        /* User Menu Styles */
+        .user-menu {
+            position: relative;
+        }
+
+        .user-menu-toggle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-menu-toggle img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-menu-toggle span {
+            font-weight: 500;
+        }
+
+        .user-menu-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            width: 200px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .user-menu-dropdown ul {
+            display: block;
+            padding: 10px 0;
+        }
+
+        .user-menu-dropdown ul li {
+            margin: 0;
+        }
+
+        .user-menu-dropdown ul li a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+
+        .user-menu-dropdown ul li a:hover {
+            background-color: #f8f9fa;
+        }
+
+        .user-menu-dropdown ul li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Admin Dashboard Layout */
+        .admin-dashboard {
+            display: flex;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Admin Sidebar */
+        .admin-sidebar {
+            width: 250px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-right: 20px;
+            height: fit-content;
+        }
+
+        .admin-sidebar-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .admin-sidebar-header h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .admin-sidebar-header p {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .admin-sidebar-menu {
+            list-style: none;
+        }
+
+        .admin-sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .admin-sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            color: #333;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .admin-sidebar-menu li a:hover {
+            background-color: #f8f9fa;
+            color: #0066cc;
+        }
+
+        .admin-sidebar-menu li a.active {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        .admin-sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Admin Content */
+        .admin-content {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .admin-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .admin-header p {
+            color: #6c757d;
+        }
+
+        /* Form Styles */
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-control:focus {
+            border-color: #0066cc;
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 250px;
+            padding: 0 10px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0052a3;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #0066cc;
+            color: #0066cc;
+        }
+
+        .btn-outline:hover {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        .btn + .btn {
+            margin-left: 10px;
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .admin-dashboard {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .form-col {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="../index.jsp">LifeCare <span>Medical</span></a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="../index.jsp">Home</a></li>
+                        <li><a href="../departments">Departments</a></li>
+                        <li><a href="../Service.jsp">Services</a></li>
+                        <li><a href="../appointments.jsp">Appointments</a></li>
+                    </ul>
+                </nav>
+                <div class="user-menu">
+                    <div class="user-menu-toggle">
+                        <img src="https://via.placeholder.com/40x40" alt="Admin">
+                        <span>Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-menu-dropdown">
+                        <ul>
+                            <li><a href="profile.jsp"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a href="settings.jsp"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><a href="../logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Dashboard -->
+    <div class="container">
+        <div class="admin-dashboard">
+            <!-- Sidebar -->
+            <div class="admin-sidebar">
+                <div class="admin-sidebar-header">
+                    <h3>Admin Panel</h3>
+                    <p>Manage your hospital</p>
+                </div>
+                <ul class="admin-sidebar-menu">
+                    <li><a href="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="patients.jsp"><i class="fas fa-users"></i> Patients</a></li>
+                    <li><a href="doctors.jsp"><i class="fas fa-user-md"></i> Doctors</a></li>
+                    <li><a href="appointments.jsp"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                    <li><a href="departments.jsp" class="active"><i class="fas fa-hospital"></i> Departments</a></li>
+                    <li><a href="services.jsp"><i class="fas fa-stethoscope"></i> Services</a></li>
+                    <li><a href="reports.jsp"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                    <li><a href="settings.jsp"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="admin-content">
+                <div class="admin-header">
+                    <div>
+                        <h1>Add New Department</h1>
+                        <p>Create a new department in the hospital</p>
+                    </div>
+                    <div>
+                        <a href="departments.jsp" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Departments</a>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <% if (request.getAttribute("errorMessage") != null) { %>
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i> <%= request.getAttribute("errorMessage") %>
+                    </div>
+                <% } %>
+
+                <!-- Add Department Form -->
+                <div class="form-container">
+                    <form action="<%= request.getContextPath() %>/admin/departments/*" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="action" value="add">
+
+                        <div class="form-group">
+                            <label for="name">Department Name *</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description *</label>
+                            <textarea id="description" name="description" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="departmentImage">Department Image</label>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="file" id="departmentImage" name="departmentImage" class="form-control" accept="image/*">
+                                <button type="button" id="uploadButton" class="btn btn-outline">Upload</button>
+                            </div>
+                            <div id="imagePreviewContainer" style="margin-top: 10px; display: none;">
+                                <img id="imagePreview" src="" alt="Preview" style="max-width: 200px; max-height: 150px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button type="button" id="removeImage" class="btn btn-outline" style="margin-left: 10px;">Remove</button>
+                            </div>
+                            <input type="hidden" id="imageUrl" name="imageUrl" value="">
+                            <small>Upload an image for the department. Recommended size: 800x600 pixels. Max file size: 10MB.</small>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="building">Building *</label>
+                                    <input type="text" id="building" name="building" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="floor">Floor *</label>
+                                    <input type="number" id="floor" name="floor" class="form-control" min="0" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="specialistsCount">Number of Specialists</label>
+                            <input type="number" id="specialistsCount" name="specialistsCount" class="form-control" min="0" value="0">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-outline">Reset</button>
+                            <button type="submit" class="btn">Add Department</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple JavaScript for toggling the user menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const userMenuToggle = document.querySelector('.user-menu-toggle');
+            const userMenuDropdown = document.querySelector('.user-menu-dropdown');
+
+            userMenuToggle.addEventListener('click', function() {
+                userMenuDropdown.style.display = userMenuDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Close the dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!userMenuToggle.contains(event.target) && !userMenuDropdown.contains(event.target)) {
+                    userMenuDropdown.style.display = 'none';
+                }
+            });
+
+            // Image upload functionality
+            const uploadButton = document.getElementById('uploadButton');
+            const fileInput = document.getElementById('departmentImage');
+            const imagePreview = document.getElementById('imagePreview');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const imageUrlInput = document.getElementById('imageUrl');
+            const removeImageButton = document.getElementById('removeImage');
+
+            // Preview image when file is selected
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files && fileInput.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        imagePreviewContainer.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(fileInput.files[0]);
+                }
+            });
+
+            // Upload image when upload button is clicked
+            uploadButton.addEventListener('click', function() {
+                if (fileInput.files && fileInput.files[0]) {
+                    const formData = new FormData();
+                    formData.append('file', fileInput.files[0]);
+
+                    // Show loading state
+                    uploadButton.textContent = 'Uploading...';
+                    uploadButton.disabled = true;
+
+                    fetch('<%= request.getContextPath() %>/upload', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Set the image URL in the hidden input
+                            imageUrlInput.value = data.filePath;
+
+                            // Show success message
+                            alert('Image uploaded successfully!');
+                        } else {
+                            // Show error message
+                            alert('Error uploading image: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error uploading image. Please try again.');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        uploadButton.textContent = 'Upload';
+                        uploadButton.disabled = false;
+                    });
+                } else {
+                    alert('Please select an image to upload.');
+                }
+            });
+
+            // Remove image when remove button is clicked
+            removeImageButton.addEventListener('click', function() {
+                fileInput.value = '';
+                imagePreview.src = '';
+                imagePreviewContainer.style.display = 'none';
+                imageUrlInput.value = '';
+            });
+        });
+
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const building = document.getElementById('building').value.trim();
+
+            if (name === '') {
+                alert('Department name is required');
+                e.preventDefault();
+                return;
+            }
+
+            if (description === '') {
+                alert('Description is required');
+                e.preventDefault();
+                return;
+            }
+
+            if (building === '') {
+                alert('Building is required');
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+</body>
+</html>

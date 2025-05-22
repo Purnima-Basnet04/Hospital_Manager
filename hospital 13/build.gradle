@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Jakarta EE Web API
+    compileOnly 'jakarta.platform:jakarta.jakartaee-web-api:10.0.0'
+    
+    // Jakarta Servlet API
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    
+    // Jakarta JSTL
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+    
+    // MySQL Connector
+    implementation 'com.mysql:mysql-connector-j:8.2.0'
+    
+    // JUnit
+    testImplementation 'junit:junit:4.13.2'
+}
+
+war {
+    archiveFileName = 'hospital.war'
+}

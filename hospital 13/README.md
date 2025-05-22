@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # LifeCare Medical Center
 
 A hospital management system built with Java EE (Jakarta EE) that allows patients to book appointments with doctors, and doctors to manage their appointments.
@@ -94,6 +93,3 @@ mvn clean package
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-=======
-"# Hospital_Manager" 
->>>>>>> 6f6f8ad27fafed62b5917459e4928449f3cde009
