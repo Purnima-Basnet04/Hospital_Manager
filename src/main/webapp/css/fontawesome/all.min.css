@@ -1,0 +1,95 @@
+/* 
+This is a placeholder for the Font Awesome CSS file.
+In a real implementation, you would download the Font Awesome files
+and place them in this directory.
+
+For now, we'll include some basic icon styles to demonstrate the concept.
+*/
+
+.fas, .far, .fab, .fa {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+/* User icon */
+.fa-user:before {
+  content: "👤";
+}
+
+/* Dashboard icon */
+.fa-tachometer-alt:before {
+  content: "📊";
+}
+
+/* Logout icon */
+.fa-sign-out-alt:before {
+  content: "🚪";
+}
+
+/* Home icon */
+.fa-home:before {
+  content: "🏠";
+}
+
+/* Calendar icon */
+.fa-calendar-alt:before {
+  content: "📅";
+}
+
+/* Clock icon */
+.fa-clock:before {
+  content: "🕒";
+}
+
+/* Users icon */
+.fa-users:before {
+  content: "👥";
+}
+
+/* Cog/Settings icon */
+.fa-cog:before {
+  content: "⚙️";
+}
+
+/* Heart icon */
+.fa-heartbeat:before {
+  content: "💓";
+}
+
+/* Medical icon */
+.fa-user-md:before {
+  content: "👨‍⚕️";
+}
+
+/* Laptop medical icon */
+.fa-laptop-medical:before {
+  content: "💻";
+}
+
+/* Map marker icon */
+.fa-map-marker-alt:before {
+  content: "📍";
+}
+
+/* Phone icon */
+.fa-phone:before {
+  content: "📞";
+}
+
+/* Envelope icon */
+.fa-envelope:before {
+  content: "✉️";
+}
+
+/* Prescription icon */
+.fa-prescription:before {
+  content: "💊";
+}
+
+/* Medical file icon */
+.fa-file-medical:before {
+  content: "📋";
+}
